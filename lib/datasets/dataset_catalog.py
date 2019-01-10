@@ -216,5 +216,23 @@ DATASETS = {
             _DATA_DIR + '/VOC2012/annotations/voc_2012_trainval.json',
         DEVKIT_DIR:
             _DATA_DIR + '/VOC2012/VOCdevkit2012'
+    },
+      'MIO_TCD_train': {
+        IM_DIR:
+            _DATA_DIR + '/',
+        ANN_FN:
+            _DATA_DIR + '/miotcd/annotations/mio_tcd_train_annot_coco_style.json',
+    },
+      'bogota_train': {
+        IM_DIR:
+            _DATA_DIR + '/',
+        ANN_FN:
+            _DATA_DIR + '/data_bogota/bogota_coco/bogota_project_1_7_8_15_coco_style.json',
+    },
+      'bogota_val': {
+        IM_DIR:
+            _DATA_DIR + '/',
+        ANN_FN:
+            _DATA_DIR + '/data_bogota/bogota_coco/bogota_project7_coco_style.json',
     }
 }

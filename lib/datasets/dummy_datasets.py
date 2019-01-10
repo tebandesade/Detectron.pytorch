@@ -45,3 +45,23 @@ def get_coco_dataset():
     ]
     ds.classes = {i: name for i, name in enumerate(classes)}
     return ds
+
+def get_miotcd_dataset():
+    """A dummy MIOTCD dataset that includes only the 'classes' field."""
+    ds = AttrDict()
+    classes = [
+        '__background__', 'articulated_truck', 'bicycle', 'bus', 'car', 'motorcycle',
+        'motorized_vehicle', 'non-motorized_vehicle', 'pedestrian', 'pickup_truck', 'single_unit_truck light', 'work_van'
+        ]
+    ds.classes = {i: name for i, name in enumerate(classes)}
+    return ds
+def get_bogota_dataset():
+    """A dummy bogota dataset that includes only the 'classes' field."""
+
+    ds = AttrDict()
+    classes = [
+        '__background__', 'articulated_truck', 'bicycle', 'bus', 'car', 'motorcycle',
+        'suv', 'taxi', 'pedestrian', 'pickup_truck', 'single_unit_truck light', 'work_van'
+        ]
+    ds.classes = {i: name for i, name in enumerate(classes)}
+    return ds

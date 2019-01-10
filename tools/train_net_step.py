@@ -153,6 +153,12 @@ def main():
     if args.dataset == "coco2017":
         cfg.TRAIN.DATASETS = ('coco_2017_train',)
         cfg.MODEL.NUM_CLASSES = 81
+    elif args.dataset == "miotcd":
+        cfg.TRAIN.DATASETS = ('MIO_TCD_train',)
+        cfg.MODEL.NUM_CLASSES = 12
+    elif args.dataset == "bogota":
+        cfg.TRAIN.DATASETS = ('bogota_train',)
+        cfg.MODEL.NUM_CLASSES = 12
     elif args.dataset == "keypoints_coco2017":
         cfg.TRAIN.DATASETS = ('keypoints_coco_2017_train',)
         cfg.MODEL.NUM_CLASSES = 2
@@ -258,6 +264,7 @@ def main():
     if cfg.CUDA:
         maskRCNN.cuda()
 
+    #os.environ['CUDA_VISIBLE_DEVICES'] = 1
     ### Optimizer ###
     gn_param_nameset = set()
     for name, module in maskRCNN.named_modules():

@@ -68,7 +68,8 @@ if __name__ == '__main__':
     logger.info('Called with args:')
     logger.info(args)
 
-    assert (torch.cuda.device_count() == 1) ^ bool(args.multi_gpu_testing)
+    assert (torch.cuda.device_count() == 1 or torch.cuda.device_count()==2 ^ bool(args.multi_gpu_testing))
+
 
     assert bool(args.load_ckpt) ^ bool(args.load_detectron), \
         'Exactly one of --load_ckpt and --load_detectron should be specified.'
@@ -90,6 +91,12 @@ if __name__ == '__main__':
     if args.dataset == "coco2017":
         cfg.TEST.DATASETS = ('coco_2017_val',)
         cfg.MODEL.NUM_CLASSES = 81
+    elif args.dataset == "miotcd":
+        cfg.TEST.DATASETS = ('MIO_TCD_train',)
+        cfg.MODEL.NUM_CLASSES = 12
+    elif args.dataset == "bogota":
+        cfg.TEST.DATASETS = ('bogota_val',)
+        cfg.MODEL.NUM_CLASSES = 12
     elif args.dataset == "keypoints_coco2017":
         cfg.TEST.DATASETS = ('keypoints_coco_2017_val',)
         cfg.MODEL.NUM_CLASSES = 2
@@ -104,7 +111,8 @@ if __name__ == '__main__':
     args.test_net_file, _ = os.path.splitext(__file__)
     # manually set args.cuda
     args.cuda = True
-
+    #import pdb 
+    #pdb.set_trace()
     run_inference(
         args,
         ind_range=args.range,

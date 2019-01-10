@@ -45,6 +45,7 @@ from utils.logging import send_email
 import datasets.cityscapes_json_dataset_evaluator as cs_json_dataset_evaluator
 import datasets.json_dataset_evaluator as json_dataset_evaluator
 import datasets.voc_dataset_evaluator as voc_dataset_evaluator
+import datasets.mio_json_dataset_evaluator as mio_json_dataset_evaluator
 
 logger = logging.getLogger(__name__)
 
@@ -92,6 +93,18 @@ def evaluate_boxes(dataset, all_boxes, output_dir, use_matlab=False):
             dataset, all_boxes, output_dir, use_matlab=use_matlab
         )
         box_results = _voc_eval_to_box_results(voc_eval)
+    elif _use_mio_evaluator(dataset):
+        logger.warn('MIO TCD bbox evaluated using COCO metrics/conversions')
+        coco_eval = mio_json_dataset_evaluator.evaluate_boxes(
+            dataset, all_boxes, output_dir
+        )
+        box_results = _coco_eval_to_box_results(coco_eval)
+    elif _use_bogota_evaluator(dataset):
+        logger.warn('Bogota bbox evaluated using COCO metrics/conversions')
+        coco_eval = json_dataset_evaluator.evaluate_boxes(
+            dataset, all_boxes, output_dir
+        )
+        box_results = _coco_eval_to_box_results(coco_eval)
     else:
         raise NotImplementedError(
             'No evaluator for dataset: {}'.format(dataset.name)
@@ -251,10 +264,17 @@ def _use_cityscapes_evaluator(dataset):
     """Check if the dataset uses the Cityscapes dataset evaluator."""
     return dataset.name.find('cityscapes_') > -1
 
+def _use_bogota_evaluator(dataset):
+    """Check if the dataset uses the Cityscapes dataset evaluator."""
+    return dataset.name.find('bogota') > -1
 
 def _use_voc_evaluator(dataset):
     """Check if the dataset uses the PASCAL VOC dataset evaluator."""
     return dataset.name[:4] == 'voc_'
+
+def _use_mio_evaluator(dataset):
+    """Check if the dataset uses the PASCAL VOC dataset evaluator."""
+    return dataset.name[:4] == 'MIO_'
 
 
 # Indices in the stats array for COCO boxes and masks
